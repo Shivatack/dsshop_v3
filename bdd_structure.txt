@@ -1,0 +1,81 @@
+users:
+    - id
+    - first_name
+    - last_name
+    - email
+    - phone_indicator
+    - phone
+    - password
+    - birth_date
+    - confirmed
+    -- REFS
+    - roles
+    - addresses
+    - orders
+    - reviews
+
+roles:
+    - id
+    - name
+
+addresses:
+    - id
+    - name
+    - address
+    - zip_code
+    - country
+    - is_billing
+
+categories:
+    - id
+    - name
+
+products:
+    - id
+    - reference
+    - image_urls
+    - title
+    - description
+    - quantity
+    - price
+    - is_available
+    -- REFS
+    - categories
+    - reviews
+
+reviews:
+    - id
+    - mark
+    - title
+    - comment
+    - up_votes
+    - down_votes
+    - posted_on
+    - edited_on
+    -- REFS
+    - users
+
+orders:
+    - id
+    - reference
+    - order_date
+    - shipping_date
+    - delivery_date
+    - delivered
+    - returned
+    - status (precommand, placed, approved, preparation, shipped, delivered, cancelled, refunded)
+    -- REFS
+    - products
+    - addresses (shipping address)
+
+
+IDEAS:
+- On ne pourra mettre un commentaire sur un produit que lorsqu'on l'a acheté, reçu et attendu une période de 5 jours ouvrés (temps estimé nécessaire pour tester le produit) (gage de fiabilité) (pas de temps d'attente)
+- Un commentaire sera de la couleur des votes: au début il est blanc (neutre et les upvotes et downvotes son verts et rouges) et des qu'un premier vote apparait alors le commentaire prend la couleur du vote nuancée par le nombre de votes contraires (donc une nuance entre le vert et le rouge)
+- Mettre un système de panier
+- Mettre un système de 'mettre de cote'
+- On pourrait faire un système unique (qui serait un argument de vente): ceux qui ont 500 ou 1000 commandes (reçues obligatoirement) et plus bénéficient de 10%, 15% ou 20% à vie sur une catégorie de produits qu'ils choisissent une seule fois (a calculer pour voir la rentabilité). On aurait donc des niveaux un peu comme dans un jeu, les commandes représenteraient les points d'expériences et genre on aurait des niveaux: NOVICE, APPRENTI, INTERMEDIAIRE, EXPERT, ANCIEN
+- ou alors au bout d'un nombre d'expérience on a une happy hour personnalisée sur toute le site, ou un produit gratuit tous les 20 produits ou un truc qui encourage en fait a acheter
+- systeme de parrainage ? les filleuls ayant recu leur commande comptent comme des points d'expériences aussi ou des demi points d'expérience ?
+- peut etre améliorer la description des produits en créeant un objet "description" comportant plusieurs sections genre les spécifications techniques, une description textuelle et/ou des images
+- a voir si on rajoute un refreshToken ou pas pour la connexion et donc une signout route
