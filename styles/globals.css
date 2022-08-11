@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -15,12 +19,26 @@ a {
   box-sizing: border-box;
 }
 
+.container {
+  padding: 0 2rem;
+}
+
 @media (prefers-color-scheme: dark) {
-  html {
+  html.dark-scheme {
     color-scheme: dark;
   }
-  body {
+  body.dark-scheme {
     color: white;
     background: black;
+  }
+}
+
+@media (prefers-color-scheme: white) {
+  html.light-scheme {
+    color-scheme: white;
+  }
+  body.light-scheme {
+    color: black;
+    background: white;
   }
 }

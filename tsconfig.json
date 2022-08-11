@@ -17,7 +17,9 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist"
     },
     "include": [
         "next-env.d.ts",

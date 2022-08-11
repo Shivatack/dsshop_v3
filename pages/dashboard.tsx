@@ -1,11 +1,10 @@
 import Header from '../components/header';
-import styles from '../styles/Home.module.css';
+import Layout from '../components/layout';
 
 export default function Dashboard() {
     return (
-        <div className={styles.container}>
-            <Header />
+        <Layout>
             <p>Connected!</p>
-        </div>
+        </Layout>
     )
 }

@@ -1,12 +1,9 @@
-import Link from 'next/link';
-import LoginButton from '../components/login-btn';
+import NavBar from './navbar'
 
 export default function Header() {
     return (
-        <div className='header'>
-            <Link href={"/"}>Home</Link>
-            <br />
-            <LoginButton />
-        </div>
+        <header>
+            <NavBar />
+        </header>
     )
 }
