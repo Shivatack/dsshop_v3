@@ -15,15 +15,9 @@ export default function Home() {
 
             <main className="flex flex-col items-center">
                 {/* <h1 className={styles.title}> */}
-                <h1 className="text-3xl font-bold underline">
+                <h1 className="text-3xl font-bold underline my-16">
                     Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
-
-                <p>
-                    {/* Get started by editing{' '}
-                    <code className={styles.code}>pages/index.js</code> */}
-                    <Link href={"/dashboard"}>Dashboard</Link>
-                </p>
 
                 <div className="flex items-center flex-wrap">
                     <a href="https://nextjs.org/docs" >
