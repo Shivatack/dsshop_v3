@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Fragment } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Menu, Transition } from '@headlessui/react';
+import Link from 'next/link';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -18,6 +19,11 @@ export default function LoginButton() {
     const handleSignout = (e) => {
         e.preventDefault();
         signOut();
+    }
+
+    const handleDashboard = (e) => {
+        e.preventDefault();
+        window.location.href = "/dashboard";
     }
 
     if (session) {
@@ -54,11 +60,22 @@ export default function LoginButton() {
                         <Menu.Item>
                             {({ active }) => (
                                 <a
-                                    href="#"
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                    onClick={handleDashboard}
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
                                 >
-                                    Your Profile
+                                    Dashboard
                                 </a>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active }) => (
+                                <Link
+                                    href="/dashboard"
+                                    // className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
+                                    className={`block px-4 py-2 text-sm text-gray-700 cursor-pointer ${ active ? "bg-gray-100" : ""}`}
+                                >
+                                    Dashboard
+                                </Link>
                             )}
                         </Menu.Item>
                         <Menu.Item>
