@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Fragment } from 'react';
-import { useSession, signIn, signOut } from "next-auth/react";
+import CustomLink from './custom-link';
 import { Menu, Transition } from '@headlessui/react';
-import Link from 'next/link';
+import { useSession, signIn, signOut } from "next-auth/react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -19,11 +19,6 @@ export default function LoginButton() {
     const handleSignout = (e) => {
         e.preventDefault();
         signOut();
-    }
-
-    const handleDashboard = (e) => {
-        e.preventDefault();
-        window.location.href = "/dashboard";
     }
 
     if (session) {
@@ -59,54 +54,48 @@ export default function LoginButton() {
                         </Menu.Item>
                         <Menu.Item>
                             {({ active }) => (
-                                <a
-                                    onClick={handleDashboard}
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
-                                >
-                                    Dashboard
-                                </a>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <Link
+                                <CustomLink
                                     href="/dashboard"
-                                    // className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
-                                    className={`block px-4 py-2 text-sm text-gray-700 cursor-pointer ${ active ? "bg-gray-100" : ""}`}
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Dashboard
-                                </Link>
+                                </CustomLink>
                             )}
                         </Menu.Item>
                         <Menu.Item>
                             {({ active }) => (
-                                <a
-                                    href="#"
+                                <CustomLink
+                                    href=''
                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Settings
-                                </a>
+                                </CustomLink>
                             )}
                         </Menu.Item>
                         <Menu.Item>
                             {({ active }) => (
-                                <a
+                                <CustomLink
+                                    href=''
                                     onClick={handleSignout}
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Sign out
-                                </a>
+                                </CustomLink>
                             )}
                         </Menu.Item>
                     </Menu.Items>
                 </Transition>
             </Menu >
-        )
+        );
     }
+
     return (
-        <>
-            {/* Not signed in <br /> */}
-            <button onClick={handleSignin} className={'text-gray-300 hover:bg-gray-700 hover:text-white'}>Sign in</button>
-        </>
-    )
+        <CustomLink
+            href=''
+            onClick={handleSignin}
+            className={'text-gray-300 hover:bg-gray-700 hover:text-white'}
+        >
+            Sign in
+        </CustomLink>
+    );
 }
