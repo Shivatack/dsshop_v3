@@ -55,8 +55,8 @@ model User {
     accounts       Account[]
     sessions       Session[]
     addresses      Address[]
-    Order          Order[]
-    Review         Review[]
+    orders          Order[]
+    reviews         Review[]
 
     @@map("users")
 }
