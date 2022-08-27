@@ -28,6 +28,8 @@ export default withAuth(
         secret: process.env.NEXTAUTH_SECRET,
         callbacks: {
             authorized: ({ req, token }) => {
+                console.log(req);
+                console.log(token);
                 return !!token;
             }
         }
