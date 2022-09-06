@@ -1,0 +1,125 @@
+Table user {
+  id int [pk, increment]
+  email varchar
+  first_name varchar
+  last_name varchar
+  email_verified datetime
+  image varchar
+  phone_indicator varchar
+  phone varchar
+  birth_date datetime
+  created_at datetime
+  updated_at datetime
+  role role
+  accounts accounts
+  sessions sessions
+  orders orders
+  reviews reviews
+}
+
+Table user_address {
+  id int [pk, increment]
+  user_id int [not null, ref: > user.id]
+  address_line1 varchar
+  address_line2 varchar
+  city varchar
+  postal_code varchar
+  country varchar
+  telephone varchar
+}
+
+Table user_payment {
+  id int [pk, increment]
+  user_id int [not null, ref: > user.id]
+  payment_type varchar
+  provider varchar
+  account_no int
+  expiry date
+}
+
+Table product_category {
+  id int [pk, increment]
+  name varchar
+  desc text
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table product_inventory {
+  id int [pk, increment]
+  quantity int
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table discount {
+  id int [pk, increment]
+  name varchar
+  desc text
+  discount_percent decimal
+  active boolean
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table product {
+  id int [pk, increment]
+  name varchar
+  desc text
+  SKU varchar
+  category_id int [not null, ref: > product_category.id]
+  inventory_id int [not null, ref: - product_inventory.id]
+  price decimal
+  discount_id int [ref: > discount.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table shopping_session {
+  id int [pk, increment]
+  user_id int [not null, ref: - user.id]
+  total decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table cart_item {
+  id int [pk, increment]
+  session_id int [not null, ref: > shopping_session.id]
+  product_id int [not null, ref: - product.id]
+  quantity int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table payment_details {
+  id int [pk, increment]
+  order_id int
+  amount int
+  provider varchar
+  status varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table order_details {
+  id int [pk, increment]
+  user_id int [not null, ref: - user.id]
+  total decimal
+  payment_id int [ref: - payment_details.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table order_items {
+  id int [pk, increment]
+  order_id int [not null, ref: > order_details.id]
+  product_id int [not null, ref: - product.id]
+  quantity int
+  created_at timestamp
+  updated_at timestamp
+}

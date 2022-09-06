@@ -1,0 +1,172 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+    // shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/migrate-shadow
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// User parts
+model Account {
+    id                Int     @id @default(autoincrement())
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+
+    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId Int
+
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
+}
+
+model Session {
+    id           Int      @id @default(autoincrement())
+    sessionToken String   @unique
+    expires      DateTime
+
+    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId Int
+
+    @@map("sessions")
+}
+
+model User {
+    id             Int       @id @default(autoincrement())
+    name           String?
+    email          String?   @unique
+    emailVerified  DateTime?
+    image          String?
+    phoneIndicator String?
+    phone          String?
+    birthDate      DateTime?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    role           Role      @default(USER)
+    accounts       Account[]
+    sessions       Session[]
+    addresses      Address[]
+    orders         Order[]
+    reviews        Review[]
+
+    @@map("users")
+}
+
+model VerificationToken {
+    id         Int      @id @default(autoincrement())
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+    @@map("verificationtokens")
+}
+
+// From Swagger
+enum Role {
+    USER
+    MODERATOR
+    ADMIN
+
+    @@map("roles")
+}
+
+model Address {
+    id        Int     @id @default(autoincrement())
+    published Boolean @default(false)
+    name      String?
+    address   String
+    zipcode   String
+    country   String
+    isBilling Boolean @default(true)
+
+    user  User    @relation(fields: [id], references: [id])
+    Order Order[]
+
+    @@map("addresses")
+}
+
+model Review {
+    id        Int      @id @default(autoincrement())
+    mark      Int
+    title     String
+    comment   String
+    upVotes   Int?
+    downVotes Int?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    Product   Product? @relation(fields: [productId], references: [id])
+    productId Int
+
+    @@map("reviews")
+}
+
+enum Category {
+    MAKEUP
+    PAF
+    ACCESSORIES
+
+    @@map("categories")
+}
+
+model Product {
+    id           Int      @id @default(autoincrement())
+    reference    String
+    imageUrls    String[]
+    title        String
+    description  String
+    quantity     Int
+    price        String
+    is_available Boolean  @default(false)
+
+    categories Category[]
+    reviews    Review[]
+    order      Order      @relation(fields: [orderId], references: [id])
+    orderId    Int
+
+    @@map("products")
+}
+
+enum OrderStatus {
+    PRECOMMAND
+    PLACED
+    APPROVED
+    PREPARATION
+    SHIPPED
+    DELIVERED
+    CANCELLED
+    REFUNDED
+
+    @@map("orderstatuses")
+}
+
+model Order {
+    id            Int       @id @default(autoincrement())
+    reference     String
+    order_date    DateTime
+    shipping_date DateTime?
+    delivery_date DateTime?
+    returned      Boolean   @default(false)
+
+    status   OrderStatus
+    products Product[]
+
+    address   Address @relation(fields: [addressId], references: [id])
+    addressId Int
+    User      User?   @relation(fields: [userId], references: [id])
+    userId    Int
+
+    @@map("orders")
+}

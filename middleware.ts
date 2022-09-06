@@ -18,18 +18,36 @@
 
 // export const config = { matcher: ["/admin", "/dashboard"] }
 
+import { NextResponse } from "next/server";
+import { getSession, GetSessionParams } from "next-auth/react";
+import { NextURL } from "next/dist/server/web/next-url";
 import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./pages/api/auth/[...nextauth]";
 
 export default withAuth(
-    function middleware(req: NextRequestWithAuth) {
-        console.log(req.nextauth.token);
+    async function middleware(req: NextRequestWithAuth) {
+        console.log(req.nextauth.token.jti);
+
+        return NextResponse.next();
+        // if (session)
+        // {
+        //     console.log("SUCCESS");
+
+        //     return NextResponse.next();
+        // } else {
+        //     const signInPage = "/api/auth/signin";
+        //     const signInURL = new NextURL(signInPage, req.nextUrl.origin);
+        //     signInURL.searchParams.append("callbackUrl", req.url);
+        //     return NextResponse.rewrite(signInURL);
+        // }
     },
     {
         secret: process.env.NEXTAUTH_SECRET,
         callbacks: {
             authorized: ({ req, token }) => {
-                console.log(req);
-                console.log(token);
+                // console.log(req);
+                // console.log(token);
                 return !!token;
             }
         }

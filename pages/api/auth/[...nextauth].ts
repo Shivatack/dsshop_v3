@@ -70,6 +70,9 @@ export const authOptions: NextAuthOptions = {
             }
             return true;
         },
+        session({ session, token, user }) {
+            return session;
+        }
     }
 }
 
