@@ -45,9 +45,8 @@ model User {
     id              String    @id @default(cuid())
     name            String?
     email           String?   @unique
-    email_verified  DateTime?
+    emailVerified  DateTime?
     image           String?
-    phone_indicator String?
     phone           String?
     birth_date      DateTime?
     role            Role      @default(USER)
@@ -71,7 +70,7 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
-    @@map("verificationTokens")
+    @@map("verification_tokens")
 }
 
 // From Swagger and dbdiagram.io
@@ -90,7 +89,7 @@ model user_address {
     city          String
     postal_code   String
     country       String
-    telephone     String
+    phone     String
 
     user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
     user_id String
@@ -198,6 +197,8 @@ model cart_item {
     shopping_session_id String
     product             product          @relation(fields: [product_id], references: [id], onDelete: Cascade)
     product_id          String
+
+    @@map("cart_items")
 }
 
 model payment_details {
@@ -210,6 +211,8 @@ model payment_details {
     updated_at DateTime
 
     order_details order_details[]
+
+    @@map("payments_details")
 }
 
 model order_details {
@@ -224,6 +227,8 @@ model order_details {
     user_id            String
     payment_details    payment_details? @relation(fields: [payment_details_id], references: [id], onDelete: Cascade)
     payment_details_id String?
+
+    @@map("orders_details")
 }
 
 model order_items {
@@ -236,4 +241,6 @@ model order_items {
     order_details_id String
     product          product       @relation(fields: [product_id], references: [id], onDelete: Cascade)
     product_id       String
+
+    @@map("orders_items")
 }

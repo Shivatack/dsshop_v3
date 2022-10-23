@@ -27,8 +27,6 @@ import { authOptions } from "./pages/api/auth/[...nextauth]";
 
 export default withAuth(
     async function middleware(req: NextRequestWithAuth) {
-        console.log(req.nextauth.token.jti);
-
         return NextResponse.next();
         // if (session)
         // {

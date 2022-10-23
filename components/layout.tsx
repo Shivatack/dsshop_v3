@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </header>
 
             <div className='flex flex-col items-center white'>
-                <div className="container">
+                <div className="container max-w-7xl">
                     {children}
                 </div>
             </div>
