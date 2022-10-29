@@ -46,7 +46,8 @@ export default withAuth(
             authorized: ({ req, token }) => {
                 // console.log(req);
                 // console.log(token);
-                return !!token;
+                // return !!token;
+                return true;
             }
         }
     }
@@ -58,8 +59,8 @@ export default withAuth(
 //     }
 // }
 
-export const config = {
-    matcher: [
-        "/dashboard/:path*"
-    ]
-}
+// export const config = {
+//     matcher: [
+//         "/dashboard/:path*"
+//     ]
+// }
