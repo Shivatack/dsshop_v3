@@ -18,49 +18,37 @@
 
 // export const config = { matcher: ["/admin", "/dashboard"] }
 
-import { NextResponse } from "next/server";
-import { getSession, GetSessionParams } from "next-auth/react";
-import { NextURL } from "next/dist/server/web/next-url";
-import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./pages/api/auth/[...nextauth]";
 
-export default withAuth(
-    async function middleware(req: NextRequestWithAuth) {
-        return NextResponse.next();
-        // if (session)
-        // {
-        //     console.log("SUCCESS");
 
-        //     return NextResponse.next();
-        // } else {
-        //     const signInPage = "/api/auth/signin";
-        //     const signInURL = new NextURL(signInPage, req.nextUrl.origin);
-        //     signInURL.searchParams.append("callbackUrl", req.url);
-        //     return NextResponse.rewrite(signInURL);
-        // }
-    },
-    {
-        secret: process.env.NEXTAUTH_SECRET,
-        callbacks: {
-            authorized: ({ req, token }) => {
-                // console.log(req);
-                // console.log(token);
-                return !!token;
-            }
-        }
-    }
-)
-//     request: NextRequest) {
-//     if (request.nextUrl.pathname.startsWith('/dashboard')) {
-//         console.log(request);
-//         return NextResponse.redirect(new URL("/", request.url));
+
+
+
+
+
+
+// import { NextResponse } from "next/server";
+// import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
+
+// export default withAuth(
+//     async function middleware(req: NextRequestWithAuth) {
+//         return NextResponse.next();
+//     },
+//     {
+//         secret: process.env.NEXTAUTH_SECRET,
+//         callbacks: {
+//             authorized: ({ req, token }) => {
+//                 return !!token;
+//             }
+//         }
 //     }
+// )
+
+// export const config = {
+//     matcher: [
+//         "/dashboard/:path*"
+//     ]
 // }
 
-export const config = {
-    matcher: [
-        // "/dashboard/:path*"
-        "/dashboard"
-    ]
-}
+export { default } from "next-auth/middleware";
+
+export const config = { matcher: ["/dashboard/:path*"] };
