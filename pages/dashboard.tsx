@@ -32,11 +32,6 @@ export default function Dashboard() {
     }, [data]);
     if (!data) return <div>LOADING...</div>;
 
-    function handleChange(e) {
-        // setUsername(e.target.value);
-        // console.log(username);
-    }
-
     function handleUserChange(setUserAttribute, e) {
         setUserAttribute(e.target.value);
         // setTimeout(() => {
@@ -57,7 +52,7 @@ export default function Dashboard() {
     if (session)
     {
         return (
-            <Layout>
+            <Layout title='User dashboard'>
                 <Head>
                     <title>Dashboard</title>
                     <meta name="description" content="User dashboard." />

@@ -25,8 +25,6 @@ function ActiveLink({ children, linkKey, linkHref, activeClass, inactiveClass, l
     );
     classNames.concat(" ", linkClassName);
 
-    const aria_current = router.asPath === linkHref ? ariaCurrent : undefined;
-
     const handleClick = (e) => {
         e.preventDefault();
         router.push(linkHref);
