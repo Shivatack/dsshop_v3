@@ -22,4 +22,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(404).json({ message: 'User not found.' });
         }
     }
+
+    if (req.method === 'UPDATE') {
+        try {
+            // const updateUser = await prisma.user.update({
+            //     where: {
+            //         email: session.user.email
+            //     },
+            //     data: req.body
+            // });
+
+            console.log(req.body);
+
+            // return res.status(200).json(updateUser);
+        } catch (e) {
+            console.log("API ERROR: " + e.message);
+            return res.status(404).json({ message: 'User could not be updated.' });
+        }
+    }
 }

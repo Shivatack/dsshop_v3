@@ -50,6 +50,8 @@ export default function Dashboard() {
 
         console.log(username);
         console.log(email);
+
+
     }
 
     if (session)

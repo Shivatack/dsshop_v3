@@ -16,6 +16,7 @@
     "@heroicons/react": "^1.0.6",
     "@next-auth/mongodb-adapter": "^1.0.4",
     "@next-auth/prisma-adapter": "^1.0.4",
+    "@premieroctet/next-crud": "^2.3.1",
     "@prisma/client": "^4.4.0",
     "mongodb": "^4.8.1",
     "next": "12.2.5",

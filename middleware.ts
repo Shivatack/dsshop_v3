@@ -26,29 +26,34 @@
 
 
 
-// import { NextResponse } from "next/server";
-// import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
+import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
 
-// export default withAuth(
-//     async function middleware(req: NextRequestWithAuth) {
-//         return NextResponse.next();
-//     },
-//     {
-//         secret: process.env.NEXTAUTH_SECRET,
-//         callbacks: {
-//             authorized: ({ req, token }) => {
-//                 return !!token;
-//             }
-//         }
-//     }
-// )
+export default withAuth(
+    async function middleware(req: NextRequestWithAuth) {
+        return NextResponse.next();
+    },
+    {
+        secret: process.env.NEXTAUTH_SECRET,
+        callbacks: {
+            authorized: ({ req, token }) => {
+                return !!token;
+            }
+        }
+    }
+)
 
-// export const config = {
-//     matcher: [
-//         "/dashboard/:path*"
-//     ]
-// }
+export const config = {
+    matcher: [
+        "/dashboard/:path*"
+    ]
+}
 
-export { default } from "next-auth/middleware";
 
-export const config = { matcher: ["/dashboard/:path*"] };
+
+
+
+
+// export { default } from "next-auth/middleware";
+
+// export const config = { matcher: ["/dashboard/:path*"] };
