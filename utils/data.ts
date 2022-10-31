@@ -1,0 +1,96 @@
+const data = {
+    products: [
+        {
+            id: "0",
+            name: 'Free Shirt',
+            desc: 'This is a free t-shirt',
+            slug: 'free-shirt',
+            image: '/images/shirt1.jpg',
+            price: 70,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+        {
+            id: "1",
+            name: 'Fit Shirt',
+            desc: 'This is a fit t-shirt',
+            slug: 'fit-shirt',
+            image: '/images/shirt2.jpg',
+            price: 80,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+        {
+            id: "2",
+            name: 'Slim Shirt',
+            desc: 'This is a slim t-shirt',
+            slug: 'slim-shirt',
+            image: '/images/shirt3.jpg',
+            price: 90,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+        {
+            id: "3",
+            name: 'Golf Pants',
+            desc: 'This is a golf pants',
+            slug: 'golf-pants',
+            image: '/images/pants1.jpg',
+            price: 90,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+        {
+            id: "4",
+            name: 'Fit Pants',
+            desc: 'This is a fit pants',
+            slug: 'fit-pants',
+            image: '/images/pants2.jpg',
+            price: 95,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+        {
+            id: "5",
+            name: 'Classic Pants',
+            desc: 'This is a classic pants',
+            slug: 'classic-pants',
+            image: '/images/pants3.jpg',
+            price: 75,
+            SKU: "",
+            created_at: new Date(Date.now()),
+            updated_at: new Date(Date.now()),
+            deleted_at: new Date(Date.now()),
+            category_id: "",
+            inventory_id: "",
+            discount_id: ""
+        },
+    ]
+}
+
+export default data
