@@ -10,8 +10,8 @@ import {
     useColorModeValue,
     useBreakpointValue
 } from '@chakra-ui/react'
-import { MenuIcon } from '@heroicons/react/outline'
 import { signIn } from "next-auth/react"
+import { MenuIcon } from '@heroicons/react/outline'
 
 export default function NavBar() {
     const isDesktop = useBreakpointValue({ base: false, lg: true })
@@ -41,7 +41,7 @@ export default function NavBar() {
                                 </ButtonGroup>
                                 <HStack spacing="3">
                                     <NextLink href="/cart" passHref>
-                                        <Link href="/cart">
+                                        <Link>
                                             <Button variant="ghost">Cart</Button>
                                         </Link>
                                     </NextLink>
