@@ -10,10 +10,15 @@ import {
     useColorModeValue,
     useBreakpointValue
 } from '@chakra-ui/react'
+import { useContext } from 'react'
+import { Store } from '../utils/store'
 import { signIn } from "next-auth/react"
 import { MenuIcon } from '@heroicons/react/outline'
 
 export default function NavBar() {
+    const { state } = useContext(Store)
+    const { cart } = state
+
     const isDesktop = useBreakpointValue({ base: false, lg: true })
 
     const handleSignIn = (e) => {
@@ -36,13 +41,19 @@ export default function NavBar() {
                             <Flex justify="space-between" flex="1">
                                 <ButtonGroup variant="link" spacing="8">
                                     {['Product', 'Pricing', 'Resources', 'Support'].map((item) => (
-                                    <Button key={item}>{item}</Button>
+                                        <Button key={item}>{item}</Button>
                                     ))}
                                 </ButtonGroup>
                                 <HStack spacing="3">
                                     <NextLink href="/cart" passHref>
                                         <Link>
-                                            <Button variant="ghost">Cart</Button>
+                                            <Button variant="ghost">
+                                                Cart {cart.cartItems.length > 0 && (
+                                                    <Box as='span' marginLeft={1} rounded='full' bg='red.600' px={2} py={1} fontSize='xs' fontWeight='bold' color='white'>
+                                                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                                                    </Box>
+                                                )}
+                                            </Button>
                                         </Link>
                                     </NextLink>
                                     <Button onClick={handleSignIn} variant="outline" colorScheme='pink'>Sign in</Button>
@@ -50,9 +61,9 @@ export default function NavBar() {
                             </Flex>
                         ) : (
                             <IconButton
-                            variant="ghost"
-                            icon={<MenuIcon fontSize="1.25rem" />}
-                            aria-label="Open Menu"
+                                variant="ghost"
+                                icon={<MenuIcon fontSize="1.25rem" />}
+                                aria-label="Open Menu"
                             />
                         )}
                     </HStack>

@@ -5,8 +5,13 @@ import { useRouter } from "next/router"
 import { product } from "@prisma/client"
 import Layout from "../../components/layout"
 import { Link, Button, Container, Grid, GridItem, List, ListItem, Heading, Text, Flex } from '@chakra-ui/react'
+import { useContext } from 'react'
+import { Store } from '../../utils/store'
 
 export default function ProductScreen() {
+    const { state, dispatch } = useContext(Store)
+
+    const router = useRouter()
     const { query } = useRouter()
     const { slug } = query
     const product: product = data.products.find(x => x.slug === slug)
@@ -18,6 +23,20 @@ export default function ProductScreen() {
             </Layout>
         )
 
+    const addToCartHandler = () => {
+        const existItem = state.cart.cartItems.find((x) => x.slug === product.slug)
+        const quantity = existItem ? existItem.quantity + 1 : 1
+
+        // if (product.countInStock < quantity)
+        // {
+        //     alert('Sorry, product is out of stock.')
+        //     return
+        // }
+
+        dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+        router.push('/cart')
+    }
+
     return (
         <Layout title={product.name}>
             <Container maxW='container.xl' m='auto' mt='10' mb='10' px='4'>
@@ -27,8 +46,8 @@ export default function ProductScreen() {
                     </Link>
                 </NextLink>
 
-                <Grid templateColumns='repeat(4, 1fr)' gap={6}>
-                    <GridItem colSpan={2}>
+                <Grid gridTemplateColumns={{ sm: '1fr', md: 'repeat(4, 1fr)' }} gap={6}>
+                    <GridItem colSpan={{ sm: 1, md: 2 }}>
                         <Image src={product.image} alt={product.name} width={640} height={640} layout="responsive"></Image>
                     </GridItem>
                     <GridItem colSpan={1}>
@@ -49,11 +68,7 @@ export default function ProductScreen() {
                                 <Text>In stock</Text>
                                 {/* <Text>${product.stock > 0 ? 'In stock' : 'Unavailable'}</Text> */}
                             </Flex>
-                            <NextLink href="/add-to-cart" passHref>
-                                <Link>
-                                    <Button variant="solid" mt={4} w='100%'>Add to cart</Button>
-                                </Link>
-                            </NextLink>
+                            <Button variant="solid" mt={4} w='100%' onClick={addToCartHandler}>Add to cart</Button>
                         </Flex>
                     </GridItem>
                 </Grid>
