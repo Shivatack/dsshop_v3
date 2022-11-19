@@ -2,11 +2,12 @@ import NextLink from 'next/link'
 import { useContext } from "react"
 import { useRouter } from "next/router"
 import { Store } from "../utils/store"
-import { Box, Link, Grid, GridItem, Container, Table, Thead, Tr, Th, Tbody, Td, Image, Button, Flex, Text, List, ListItem, Heading } from "@chakra-ui/react"
+import { Box, Link, Grid, GridItem, Container, Table, Thead, Tr, Th, Tbody, Td, Image, Button, Flex, Text, List, ListItem, Heading, Select } from "@chakra-ui/react"
 import { DeleteIcon } from '@chakra-ui/icons'
 import Layout from "../components/layout"
+import dynamic from 'next/dynamic'
 
-export default function CartScreen() {
+function CartScreen() {
     const router = useRouter()
     const { state, dispatch } = useContext(Store)
     const {
@@ -15,6 +16,11 @@ export default function CartScreen() {
 
     const removeItemHandler = (item) => {
         dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+    }
+
+    const updateCartHandler = (item, qty) => {
+        const quantity = Number(qty)
+        dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
     }
 
     return (
@@ -59,7 +65,16 @@ export default function CartScreen() {
                                                         </Link>
                                                     </NextLink>
                                                 </Td>
-                                                <Td px={5} textAlign='right'>{item.quantity}</Td>
+                                                <Td px={5} textAlign='right'>
+                                                    <Select value={item.quantity} onChange={e => updateCartHandler(item, e.target.value)}>
+                                                        {
+                                                            // DO NOT FORGET TO CHANGE 5 BY THE QUANTITY AVAILABLE IN STOCK
+                                                            [...Array(5).keys()].map(x => (
+                                                                <option key={x + 1} value={x + 1}>{x + 1}</option>
+                                                            ))
+                                                        }
+                                                    </Select>
+                                                </Td>
                                                 <Td px={5} textAlign='right'>${item.price}</Td>
                                                 <Td px={5} textAlign='center'>
                                                     <Button onClick={() => removeItemHandler(item)}>
@@ -94,4 +109,5 @@ export default function CartScreen() {
         </Layout>
     )
 }
-3
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false })

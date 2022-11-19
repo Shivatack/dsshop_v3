@@ -10,7 +10,7 @@ import {
     useColorModeValue,
     useBreakpointValue
 } from '@chakra-ui/react'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Store } from '../utils/store'
 import { signIn } from "next-auth/react"
 import { MenuIcon } from '@heroicons/react/outline'
@@ -18,6 +18,11 @@ import { MenuIcon } from '@heroicons/react/outline'
 export default function NavBar() {
     const { state } = useContext(Store)
     const { cart } = state
+    const [cartItemsCount, setCartItemsCount] = useState(0)
+
+    useEffect(() => {
+        setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0))
+    }, [cart.cartItems])
 
     const isDesktop = useBreakpointValue({ base: false, lg: true })
 
@@ -48,9 +53,9 @@ export default function NavBar() {
                                     <NextLink href="/cart" passHref>
                                         <Link>
                                             <Button variant="ghost">
-                                                Cart {cart.cartItems.length > 0 && (
+                                                Cart {cartItemsCount > 0 && (
                                                     <Box as='span' marginLeft={1} rounded='full' bg='red.600' px={2} py={1} fontSize='xs' fontWeight='bold' color='white'>
-                                                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                                                        {cartItemsCount}
                                                     </Box>
                                                 )}
                                             </Button>
