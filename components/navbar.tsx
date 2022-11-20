@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useContext, useEffect, useState } from 'react'
 import { Store } from '../utils/store'
-import { signIn } from "next-auth/react"
+// import { signIn } from "next-auth/react"
 import { MenuIcon } from '@heroicons/react/outline'
 
 export default function NavBar() {
@@ -26,10 +26,10 @@ export default function NavBar() {
 
     const isDesktop = useBreakpointValue({ base: false, lg: true })
 
-    const handleSignIn = (e) => {
-        e.preventDefault();
-        signIn();
-    }
+    // const handleSignIn = (e) => {
+    //     e.preventDefault();
+    //     signIn();
+    // }
 
     return (
         <Box as="section">
@@ -61,7 +61,11 @@ export default function NavBar() {
                                             </Button>
                                         </Link>
                                     </NextLink>
-                                    <Button onClick={handleSignIn} variant="outline" colorScheme='pink'>Sign in</Button>
+                                    <NextLink href="/login" passHref>
+                                        <Link>
+                                            <Button variant="outline" colorScheme='pink'>Sign in</Button>
+                                        </Link>
+                                    </NextLink>
                                 </HStack>
                             </Flex>
                         ) : (

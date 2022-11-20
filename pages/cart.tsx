@@ -95,7 +95,7 @@ function CartScreen() {
                                             </Text>
                                         </ListItem>
                                         <ListItem>
-                                            <Button w='full' onClick={() => router.push('/shipping')}>
+                                            <Button w='full' onClick={() => router.push('login?redirect=/shipping')}>
                                                 Check Out
                                             </Button>
                                         </ListItem>
