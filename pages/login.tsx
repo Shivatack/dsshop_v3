@@ -15,7 +15,7 @@ export default function LoginScreen() {
     const { redirect } = router.query
     useEffect(() => {
         if (session?.user) {
-            router.push(redirect || "/")
+            router.push(redirect.toString() || "/")
         }
     }, [router, session, redirect])
     const { handleSubmit, register, formState: { errors } } = useForm()
