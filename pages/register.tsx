@@ -8,6 +8,7 @@ import { VStack, Container, FormControl, FormLabel, FormHelperText, FormErrorMes
 import { getError } from "../utils/error"
 import { useEffect } from "react"
 import { useRouter } from 'next/router'
+import axios from "axios"
 
 export default function LoginScreen() {
     const { data: session } = useSession()
@@ -15,13 +16,19 @@ export default function LoginScreen() {
     const { redirect } = router.query
     useEffect(() => {
         if (session?.user) {
-            router.push(redirect?.toString() || "/")
+            router.push(redirect.toString() || "/")
         }
     }, [router, session, redirect])
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { handleSubmit, register, getValues, formState: { errors } } = useForm()
     const toast = useToast()
-    const submitHandler = async ({ email, password }) => {
+    const submitHandler = async ({ name, email, password }) => {
         try {
+            await axios.post('/api/auth/signup', {
+                name,
+                email,
+                password
+            })
+
             const result = await signIn('credentials', {
                 redirect: false,
                 email,
@@ -50,13 +57,26 @@ export default function LoginScreen() {
     const password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
 
     return (
-        <Layout title="Login">
+        <Layout title="Register">
             <Container maxW='container.xl' m='auto' mt='10' mb='10' px='4'>
                 <VStack as="form" mx='auto' maxW='container.md' onSubmit={handleSubmit(submitHandler)}>
-                    <Heading as='h1' mb={4} fontSize='xl'>Login</Heading>
+                    <Heading as='h1' mb={4} fontSize='xl'>Register</Heading>
+
+                    <FormControl mb={4} isInvalid={!!errors?.name?.message}>
+                        <FormLabel>Name</FormLabel>
+                        <Input type="text" {...register('name', { required: 'Please enter name.' })} w='full' autoFocus />
+                        {errors?.name?.message ?
+                            (
+                                <FormErrorMessage>{errors?.name?.message.toString()}</FormErrorMessage>
+                            ) : (
+                                <FormHelperText>Fullname.</FormHelperText>
+                            )
+                        }
+                    </FormControl>
+
                     <FormControl mb={4} isInvalid={!!errors?.email?.message}>
                         <FormLabel>Email</FormLabel>
-                        <Input type="email" {...register('email', { required: 'Please enter email.', pattern: { value: email_regex, message: 'Please enter a valid email.' } })} w='full' autoFocus />
+                        <Input type="email" {...register('email', { required: 'Please enter email.', pattern: { value: email_regex, message: 'Please enter a valid email.' } })} w='full' />
                         {errors?.email?.message ?
                             (
                                 <FormErrorMessage>{errors?.email?.message.toString()}</FormErrorMessage>
@@ -65,6 +85,7 @@ export default function LoginScreen() {
                             )
                         }
                     </FormControl>
+
                     <FormControl mb={4} isInvalid={!!errors?.password?.message}>
                         <FormLabel>Password</FormLabel>
                         <Input type="password" {...register('password', { required: 'Please enter password', pattern: { value: password_regex, message: 'Please enter a valid password' } })} w='full' />
@@ -76,12 +97,29 @@ export default function LoginScreen() {
                             )
                         }
                     </FormControl>
-                    <Button mb={4} w='50%' variant="solid" type="submit">Login</Button>
+
+                    <FormControl mb={4} isInvalid={!!errors?.confirmPassword?.message}>
+                        <FormLabel>Confirm password</FormLabel>
+                        <Input type="password" {...register('confirmPassword', { required: 'Please confirm password', validate: (value) => value === getValues('password'), pattern: { value: password_regex, message: 'Please enter a valid password' } })} w='full' />
+                        {errors?.confirmPassword?.message && errors?.confirmPassword?.type === 'validate' ?
+                            (
+                                <FormErrorMessage>Passwords do not match.</FormErrorMessage>
+                            ) : errors?.confirmPassword?.message ?
+                                (
+                                    <FormErrorMessage>{errors?.confirmPassword?.message.toString()}</FormErrorMessage>
+                                ) : (
+                                    <FormHelperText>8 to 15 characters with at least 1 lowercase letter, 1 uppercase letter, 1 numeric digit, and 1 special character. Must be equal to password field.</FormHelperText>
+                                )
+                        }
+                    </FormControl>
+
+                    <Button mb={4} w='50%' variant="solid" type="submit">Register</Button>
+
                     <Flex w='full' align='flex-start'>
-                        <Text mb={4} fontSize='lg'>Don&apos;t have an account? &nbsp;</Text>
-                        <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>
+                        <Text mb={4} fontSize='lg'>Already have an account? &nbsp;</Text>
+                        <NextLink href={`/login?redirect=${redirect || '/'}`} passHref>
                             <Link fontSize='lg' fontWeight='bold'>
-                                Register
+                                Login
                             </Link>
                         </NextLink>
                     </Flex>

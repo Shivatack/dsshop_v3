@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Store } from '../utils/store'
 import { useSession } from 'next-auth/react'
 // import { signIn } from "next-auth/react"
+import { signOut } from "next-auth/react"
 import { MenuIcon } from '@heroicons/react/outline'
 
 export default function NavBar() {
@@ -66,7 +67,10 @@ export default function NavBar() {
                                     {status === 'loading' ? (
                                         'Loading'
                                     ) : session?.user ? (
-                                        session.user.name
+                                        <Box>
+                                            {session.user.name}
+                                            <Button variant="outline" onClick={() => signOut()} colorScheme='pink'>Sign out</Button>
+                                        </Box>
                                     ) : (
                                         <NextLink href="/login" passHref>
                                             <Link>
