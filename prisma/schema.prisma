@@ -42,16 +42,17 @@ model Session {
 }
 
 model User {
-    id              String    @id @default(cuid())
-    name            String?
-    email           String?   @unique
-    emailVerified  DateTime?
-    image           String?
-    phone           String?
-    birth_date      DateTime?
-    role            Role      @default(USER)
-    created_at      DateTime  @default(now())
-    updated_at      DateTime  @updatedAt
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    password      String?
+    image         String?
+    phone         String?
+    birth_date    DateTime?
+    role          Role      @default(USER)
+    created_at    DateTime  @default(now())
+    updated_at    DateTime  @updatedAt
 
     // CEUX CI N'APPARAISSENT PAS DANS LA BD
     accounts         Account[]
@@ -89,7 +90,7 @@ model user_address {
     city          String
     postal_code   String
     country       String
-    phone     String
+    phone         String
 
     user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
     user_id String

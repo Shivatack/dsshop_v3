@@ -1,12 +1,50 @@
 import NextLink from "next/link"
 import Layout from "../components/layout"
 import { useForm } from 'react-hook-form'
+import { signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { useToast } from "@chakra-ui/react"
 import { VStack, Container, FormControl, FormLabel, FormHelperText, FormErrorMessage, Input, Button, Text, Link, Heading, Flex } from "@chakra-ui/react"
+import { getError } from "../utils/error"
+import { useEffect } from "react"
+import { useRouter } from 'next/router'
 
 export default function LoginScreen() {
+    const { data: session } = useSession()
+    const router = useRouter()
+    const { redirect } = router.query
+    useEffect(() => {
+        if (session?.user) {
+            router.push(redirect || "/")
+        }
+    }, [router, session, redirect])
     const { handleSubmit, register, formState: { errors } } = useForm()
-    const submitHandler = ({ email, password }) => {
-        console.log(email, password);
+    const toast = useToast()
+    const submitHandler = async ({ email, password }) => {
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email,
+                password
+            })
+            if (result.error) {
+                toast({
+                    title: 'Error!',
+                    description: result.error,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true
+                })
+            }
+        } catch (err) {
+            toast({
+                title: 'Error!',
+                description: getError(err),
+                status: 'error',
+                duration: 9000,
+                isClosable: true
+            })
+        }
     }
     const email_regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
