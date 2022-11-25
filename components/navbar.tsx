@@ -8,7 +8,12 @@ import {
     IconButton,
     ButtonGroup,
     useColorModeValue,
-    useBreakpointValue
+    useBreakpointValue,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuGroup
 } from '@chakra-ui/react'
 import { useContext, useEffect, useState } from 'react'
 import { Store } from '../utils/store'
@@ -16,10 +21,11 @@ import { useSession } from 'next-auth/react'
 // import { signIn } from "next-auth/react"
 import { signOut } from "next-auth/react"
 import { MenuIcon } from '@heroicons/react/outline'
+import Cookies from 'js-cookie'
 
 export default function NavBar() {
     const { status, data: session } = useSession()
-    const { state } = useContext(Store)
+    const { state, dispatch } = useContext(Store)
     const { cart } = state
     const [cartItemsCount, setCartItemsCount] = useState(0)
 
@@ -67,10 +73,38 @@ export default function NavBar() {
                                     {status === 'loading' ? (
                                         'Loading'
                                     ) : session?.user ? (
-                                        <Box>
-                                            {session.user.name}
-                                            <Button variant="outline" onClick={() => signOut()} colorScheme='pink'>Sign out</Button>
-                                        </Box>
+                                        <Menu>
+                                            <MenuButton
+                                                aria-label='Options'
+                                            >
+                                                {session.user.name}
+                                            </MenuButton>
+                                            <MenuList>
+                                                <NextLink href="/profile" passHref>
+                                                    <MenuItem>
+                                                        <Link>
+                                                            Profile
+                                                        </Link>
+                                                    </MenuItem>
+                                                </NextLink>
+                                                <NextLink href="/order-history" passHref>
+                                                    <MenuItem>
+                                                        <Link>
+                                                            Order history
+                                                        </Link>
+                                                    </MenuItem>
+                                                </NextLink>
+                                                <MenuItem onClick={() => { Cookies.remove('cart'); dispatch({ type: 'CART_RESET' }); signOut({ callbackUrl: '/login' }); }}>
+                                                    <Link>
+                                                        Sign out
+                                                    </Link>
+                                                </MenuItem>
+                                            </MenuList>
+                                        </Menu>
+                                        // <Box>
+                                        //     {session.user.name}
+                                        //     <Button variant="outline" onClick={() => signOut()} colorScheme='pink'>Sign out</Button>
+                                        // </Box>
                                     ) : (
                                         <NextLink href="/login" passHref>
                                             <Link>
@@ -82,11 +116,70 @@ export default function NavBar() {
                                 </HStack>
                             </Flex>
                         ) : (
-                            <IconButton
-                                variant="ghost"
-                                icon={<MenuIcon fontSize="1.25rem" />}
-                                aria-label="Open Menu"
-                            />
+                            // <IconButton
+                            //     variant="ghost"
+                            //     icon={<MenuIcon fontSize="1.25rem" />}
+                            //     aria-label="Open Menu"
+                            // />
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    aria-label='Options'
+                                    icon={<MenuIcon fontSize="1.25rem" />}
+                                    variant='outline'
+                                />
+                                <MenuList>
+                                    <MenuGroup title='Profile'>
+                                        {status === 'loading' ? (
+                                            <MenuItem>
+                                                Loading
+                                            </MenuItem>
+                                        ) : session?.user ? (
+                                            <>
+                                                <NextLink href="/profile" passHref>
+                                                    <MenuItem>
+                                                        <Link>
+                                                            Profile
+                                                        </Link>
+                                                    </MenuItem>
+                                                </NextLink>
+                                                <NextLink href="/order-history" passHref>
+                                                    <MenuItem>
+                                                        <Link>
+                                                            Order history
+                                                        </Link>
+                                                    </MenuItem>
+                                                </NextLink>
+                                                <MenuItem onClick={() => { Cookies.remove('cart'); dispatch({ type: 'CART_RESET' }); signOut({ callbackUrl: '/login' }); }}>
+                                                    <Link>
+                                                        Sign out
+                                                    </Link>
+                                                </MenuItem>
+                                            </>
+                                        ) : (
+                                            <NextLink href="/login" passHref>
+                                                <MenuItem>
+                                                    <Link>
+                                                        Sign in
+                                                    </Link>
+                                                </MenuItem>
+                                            </NextLink>
+                                        )
+                                        }
+                                    </MenuGroup>
+                                    <MenuGroup title='Menu'>
+                                        {['Product', 'Pricing', 'Resources', 'Support'].map((item) => (
+                                            <NextLink key={item} href={`/${item}`} passHref>
+                                                <MenuItem>
+                                                    {item}
+                                                    <Link>
+                                                    </Link>
+                                                </MenuItem>
+                                            </NextLink>
+                                        ))}
+                                    </MenuGroup>
+                                </MenuList>
+                            </Menu>
                         )}
                     </HStack>
                 </Box>

@@ -80,7 +80,7 @@ export default function LoginScreen() {
                     <Flex w='full' align='flex-start'>
                         <Text mb={4} fontSize='lg'>Don&apos;t have an account? &nbsp;</Text>
                         <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>
-                            <Link fontSize='lg' fontWeight='bold'>
+                            <Link fontSize='lg' fontWeight='bold' color='pink.500'>
                                 Register
                             </Link>
                         </NextLink>
