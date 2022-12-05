@@ -21,10 +21,10 @@ export default function LoginScreen() {
     }, [router, session, redirect])
     const { handleSubmit, register, getValues, formState: { errors } } = useForm()
     const toast = useToast()
-    const submitHandler = async ({ name, email, password }) => {
+    const submitHandler = async ({ fullName, email, password }) => {
         try {
             await axios.post('/api/auth/signup', {
-                name,
+                fullName,
                 email,
                 password
             })
@@ -62,14 +62,14 @@ export default function LoginScreen() {
                 <VStack as="form" mx='auto' maxW='container.md' onSubmit={handleSubmit(submitHandler)}>
                     <Heading as='h1' mb={4} fontSize='xl'>Register</Heading>
 
-                    <FormControl mb={4} isInvalid={!!errors?.name?.message}>
-                        <FormLabel>Name</FormLabel>
-                        <Input type="text" {...register('name', { required: 'Please enter name.' })} w='full' autoFocus />
-                        {errors?.name?.message ?
+                    <FormControl mb={4} isInvalid={!!errors?.fullName?.message}>
+                        <FormLabel htmlFor="fullName">Full name</FormLabel>
+                        <Input type="text" id="fullName" {...register('fullName', { required: 'Please enter full name.' })} w='full' autoFocus />
+                        {errors?.fullName?.message ?
                             (
-                                <FormErrorMessage>{errors?.name?.message.toString()}</FormErrorMessage>
+                                <FormErrorMessage>{errors?.fullName?.message.toString()}</FormErrorMessage>
                             ) : (
-                                <FormHelperText>Fullname.</FormHelperText>
+                                <FormHelperText>Full name.</FormHelperText>
                             )
                         }
                     </FormControl>

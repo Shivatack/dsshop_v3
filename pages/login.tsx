@@ -29,7 +29,7 @@ export default function LoginScreen() {
             })
             if (result.error) {
                 toast({
-                    title: 'Error!',
+                    title: 'Error:',
                     description: result.error,
                     status: 'error',
                     duration: 9000,
@@ -38,7 +38,7 @@ export default function LoginScreen() {
             }
         } catch (err) {
             toast({
-                title: 'Error!',
+                title: 'Error:',
                 description: getError(err),
                 status: 'error',
                 duration: 9000,
@@ -54,9 +54,10 @@ export default function LoginScreen() {
             <Container maxW='container.xl' m='auto' mt='10' mb='10' px='4'>
                 <VStack as="form" mx='auto' maxW='container.md' onSubmit={handleSubmit(submitHandler)}>
                     <Heading as='h1' mb={4} fontSize='xl'>Login</Heading>
+
                     <FormControl mb={4} isInvalid={!!errors?.email?.message}>
-                        <FormLabel>Email</FormLabel>
-                        <Input type="email" {...register('email', { required: 'Please enter email.', pattern: { value: email_regex, message: 'Please enter a valid email.' } })} w='full' autoFocus />
+                        <FormLabel htmlFor="email">Email</FormLabel>
+                        <Input type="email" id="email" {...register('email', { required: 'Please enter email.', pattern: { value: email_regex, message: 'Please enter a valid email.' } })} w='full' autoFocus />
                         {errors?.email?.message ?
                             (
                                 <FormErrorMessage>{errors?.email?.message.toString()}</FormErrorMessage>
@@ -65,9 +66,10 @@ export default function LoginScreen() {
                             )
                         }
                     </FormControl>
+
                     <FormControl mb={4} isInvalid={!!errors?.password?.message}>
-                        <FormLabel>Password</FormLabel>
-                        <Input type="password" {...register('password', { required: 'Please enter password', pattern: { value: password_regex, message: 'Please enter a valid password' } })} w='full' />
+                        <FormLabel htmlFor="password">Password</FormLabel>
+                        <Input type="password" id="password" {...register('password', { required: 'Please enter password', pattern: { value: password_regex, message: 'Please enter a valid password' } })} w='full' />
                         {errors?.password?.message ?
                             (
                                 <FormErrorMessage>{errors?.password?.message.toString()}</FormErrorMessage>
@@ -76,7 +78,9 @@ export default function LoginScreen() {
                             )
                         }
                     </FormControl>
+
                     <Button mb={4} w='50%' variant="solid" type="submit">Login</Button>
+
                     <Flex w='full' align='flex-start'>
                         <Text mb={4} fontSize='lg'>Don&apos;t have an account? &nbsp;</Text>
                         <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>

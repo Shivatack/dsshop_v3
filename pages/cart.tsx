@@ -59,7 +59,7 @@ function CartScreen() {
                                                                 alt={item.name}
                                                                 width={50}
                                                                 height={50}
-                                                            ></Image>
+                                                            />
                                                             &nbsp;
                                                             {item.name}
                                                         </Link>

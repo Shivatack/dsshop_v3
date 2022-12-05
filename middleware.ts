@@ -27,16 +27,16 @@
 
 
 import { NextResponse } from "next/server";
-import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
+import withAuth from "next-auth/middleware";
 
 export default withAuth(
-    async function middleware(req: NextRequestWithAuth) {
+    async function middleware() {
         return NextResponse.next();
     },
     {
         secret: process.env.NEXTAUTH_SECRET,
         callbacks: {
-            authorized: ({ req, token }) => {
+            authorized: ({ token }) => {
                 return !!token;
             }
         }
@@ -45,7 +45,10 @@ export default withAuth(
 
 export const config = {
     matcher: [
-        "/dashboard/:path*"
+        "/dashboard/:path*",
+        "/shipping/:path*",
+        "/payment/:path*",
+        "/placeorder/:path*"
     ]
 }
 
