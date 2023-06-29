@@ -8,9 +8,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return
     }
 
-    const { name, email, password } = req.body
+    const { fullName, email, password } = req.body
 
-    if (!name || !email || !email.includes('@') || !password || password.trim().length < 8 || password.trim().length > 15) {
+    if (!fullName || !email || !email.includes('@') || !password || password.trim().length < 8 || password.trim().length > 15) {
         res.status(422).json({
             message: 'Validation error'
         })
@@ -28,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const newUser = await prisma.user.create({
         data: {
-            name: name,
+            name: fullName,
             email: email,
             password: await hash(password),
             role: Role.USER
