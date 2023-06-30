@@ -64,13 +64,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Copy file
+      - name: Copy env file
         # You may pin to the exact commit or the version.
         # uses: canastro/copy-action@7ddff6fc153a2ea2cd0fb88ed9750544c051e399
         uses: canastro/copy-action@0.0.2
         with:
           # Source file
-          source: "/home/pi/dsshop_eternal_files/.env"
+          source: "/home/pi/dsshop_external_files/.env"
           # Target file
           target: "/home/pi/actions-runner/_work/dsshop_v3/dsshop_v3/.env"
       - name: Deploy database
