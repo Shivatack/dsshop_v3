@@ -70,9 +70,9 @@ jobs:
         uses: canastro/copy-action@0.0.2
         with:
           # Source file
-          source: /home/pi/dsshop_eternal_files/.env
+          source: "/home/pi/dsshop_eternal_files/.env"
           # Target file
-          target: /home/pi/actions-runner/_work/dsshop_v3/dsshop_v3/
+          target: "/home/pi/actions-runner/_work/dsshop_v3/dsshop_v3/.env"
       - name: Deploy database
         run: npx prisma migrate deploy
       - name: Build with Next.js
