@@ -70,7 +70,7 @@ jobs:
         uses: canastro/copy-file-action@master
         with:
           # Source file
-          source: "/home/pi/dsshop_external_files/.env"
+          source: "/home/pi/dsshop-files/.env"
           # Target file
           target: "/home/pi/actions-runner/_work/dsshop_v3/dsshop_v3/.env"
       - name: Deploy database
